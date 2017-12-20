@@ -41,11 +41,11 @@ class todolist {
         listnow = listnow.reverse();
         let el = "";
         listnow.forEach(element => {
-            let classCss = "complide";
+            let classCss = "complite";
             if (element.end == false) {
-                classCss = "nocomplide";
+                classCss = "nocomplite";
             }
-            el = el + "<div  class='" + classCss + "'> <span class='listtext' onclick='todo_list.complideEl(" + element.id + ")' >  " + element.text + "</span> <a onclick='todo_list.delElFromList(" + element.id + ")' class='" + this.delBtnEl + "'>Удалить</a></div>";
+            el = el + "<div  class='" + classCss + "'> <span class='listtext' onclick='todo_list.compliteEl(" + element.id + ")' >  " + element.text + "</span> <a onclick='todo_list.delElFromList(" + element.id + ")' class='" + this.delBtnEl + "'>Удалить</a></div>";
         });
         list.innerHTML = el;
         self.saveData();
@@ -65,7 +65,7 @@ class todolist {
         self.veiwAllList();
     }
 
-    complideEl(idel) {
+    compliteEl(idel) {
         this.listall.forEach(
             el => {
                 if (el.id == idel) {

@@ -63,11 +63,11 @@ h1 {
     cursor: pointer;
 }
 
-#list .complide {
+#list .complite {
     text-decoration: line-through;
 }
 
-#list .nocomplide {}
+#list .nocomplite {}
 
 .del {
     width: 24%;
