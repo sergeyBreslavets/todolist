@@ -85,3 +85,28 @@ h1 {
     opacity: 1;
     background: #2c3844;
 }
+
+.funbtn {}
+
+.btn {
+    width: 100%;
+    float: left;
+    background: #2c3844;
+    color: #ffffff;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    border: 0px;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.green {
+    background-color: #389e1e;
+}
+
+.red {
+    background-color: #a02c2c;
+}

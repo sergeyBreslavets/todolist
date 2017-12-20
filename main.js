@@ -1,6 +1,5 @@
 'use strict';
 
-
 class todolist {
 
     constructor(idElInput, idElList) {
@@ -14,23 +13,14 @@ class todolist {
     init() {
         console.log("init");
         let kinput = document.getElementById(this.idElInput);
-        // let area = document.getElementById('area');
         kinput.onkeydown = kinput.onkeyup = kinput.onkeypress = handle;
-
-
         let lastTime = Date.now();
 
         function handle(e) {
-            var text = e.type +
-                'keyCode=' + e.keyCode + "\n";
-
             if (e.keyCode == 13 && Date.now() - lastTime > 550) {
-                console.log("laoad2");
                 self.addItemToList();
-                // area.value += text;
                 lastTime = Date.now();
             }
-            // area.scrollTop = area.scrollHeight;
         }
         self.loadData();
     }
@@ -39,7 +29,6 @@ class todolist {
         let kinput = document.getElementById(this.idElInput);
         this.listall.push({ "id": this.listall.length, "text": kinput.value, "end": false });
         console.log(this.listall);
-        // self.saveData();
         self.veiwAllList();
         kinput.value = "";
     }
@@ -91,10 +80,8 @@ class todolist {
     saveData() {
         console.log("save");
         let sObj = JSON.stringify(this.listall)
-
         localStorage.removeItem("todolist");
         localStorage.setItem("todolist", sObj);
-
     }
 
     loadData() {
@@ -105,14 +92,23 @@ class todolist {
             this.listall = datain.slice(0);
             self.veiwAllList();
         }
+    }
 
+    delAll() {
+        this.listall = [];
+        self.veiwAllList();
+    }
+
+    completeAllList() {
+        this.listall.forEach(
+            el => {
+                el.end = true;
+            }
+        );
+        self.veiwAllList();
     }
 
 }
-
-
-
-
 
 let idinput = "todo";
 let idlist = "list";
