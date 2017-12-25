@@ -1,0 +1,112 @@
+body {
+    /* width: 100%;
+    height: 100%; */
+    background-image: url(bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+}
+
+.wrap {}
+
+.todolist {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+
+h1 {
+    font-family: 'Bad Script', cursive;
+    text-transform: uppercase;
+    font-size: 30px;
+    text-align: center;
+    color: #ffffff;
+}
+
+#todo {
+    width: 100%;
+    border: 0px;
+    height: 30px;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 20px;
+    color: #000000;
+    background-color: #ffffff;
+    text-transform: uppercase;
+}
+
+#list {
+    padding-left: 0px;
+    list-style: none;
+    width: 100%;
+    overflow: hidden;
+}
+
+#list div {
+    font-family: 'Ubuntu', sans-serif;
+    color: #ffffff;
+    width: 100%;
+    text-transform: uppercase;
+    margin-top: 5px;
+    background: #2c3844;
+    padding: 5px;
+    position: relative;
+    min-height: 20px;
+}
+
+#list div:hover>.del {
+    opacity: 1;
+}
+
+.listtext {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+}
+
+#list .complite {
+    text-decoration: line-through;
+}
+
+#list .nocomplite {}
+
+.del {
+    width: 24%;
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    opacity: 0;
+}
+
+.del:focus,
+.del:hover {
+    color: #a02c2c;
+    opacity: 1;
+    background: #2c3844;
+}
+
+.funbtn {}
+
+.btn {
+    width: 100%;
+    float: left;
+    background: #2c3844;
+    color: #ffffff;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    border: 0px;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.green {
+    background-color: #389e1e;
+}
+
+.red {
+    background-color: #a02c2c;
+}
