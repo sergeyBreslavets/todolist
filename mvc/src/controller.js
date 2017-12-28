@@ -2,13 +2,16 @@
 
 export class ControllerMain {
 
-    constructor(listall, idElInput, view, model) {
+    constructor(listall, idElInput, view, model, idalldel, idallcomplite) {
         this.listall = listall;
         this.idElInput = idElInput;
         this.view = view;
         this.model = model;
+
+        this.idalldel = idalldel;
+        this.idallcomplite = idallcomplite;
         self = this;
-        console.log("c");
+
     }
 
     init() {
@@ -23,6 +26,7 @@ export class ControllerMain {
                 lastTime = Date.now();
             }
         }
+        self.addEventDelAllAndCompliteAll();
         // self.loadData();
     }
 
@@ -51,8 +55,24 @@ export class ControllerMain {
     }
 
     addEventComplite() {
-
+        this.listall.forEach(el => {
+            let delid = "complid_" + el.id;
+            let delbtn = document.getElementById(delid);
+            // console.log(delbtn);
+            delbtn.onclick = function(event) {
+                let id = event.target.attributes['idn'].value;
+                self.compliteEl(id);
+            };
+        });
     }
+
+    addEventDelAllAndCompliteAll() {
+        let delallbtn = document.getElementById(this.idalldel);
+        delallbtn.onclick = function(event) { self.delAll(); }
+        let compliteabtn = document.getElementById(this.idallcomplite);
+        compliteabtn.onclick = function(event) { self.completeAllList(); }
+    }
+
 
     delElFromList(idDel) {
         let tempList = [];
@@ -70,19 +90,54 @@ export class ControllerMain {
         this.model.saveData();
         this.view.veiwAllList();
         self.addEventDel();
+        self.addEventComplite();
     }
 
 
     compliteEl(idel) {
 
+        let tempList = [];
+        this.listall.forEach(
+            el => {
+                if (el.id == idel) {
+                    if (el.end == true) {
+                        el.end = false;
+                    } else {
+                        el.end = true;
+                    }
+                }
+            }
+        );
+        console.log(this.listall);
+        this.model.listall = this.listall;
+        this.view.listall = this.listall;
+        this.model.saveData();
+        this.view.veiwAllList();
+        self.addEventDel();
+        self.addEventComplite();
+
     }
 
     delAll() {
-
+        this.listall = [];
+        this.model.listall = this.listall;
+        this.view.listall = this.listall;
+        this.model.saveData();
+        this.view.veiwAllList();
     }
 
     completeAllList() {
-
+        this.listall.forEach(
+            el => {
+                el.end = true;
+            }
+        );
+        this.model.listall = this.listall;
+        this.view.listall = this.listall;
+        this.model.saveData();
+        this.view.veiwAllList();
+        self.addEventDel();
+        self.addEventComplite();
     }
 
 }

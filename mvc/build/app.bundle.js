@@ -84,15 +84,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // Контроллер (Controller) интерпретирует действия пользователя, оповещая модель о необходимости изменений[
 
 var ControllerMain = exports.ControllerMain = function () {
-    function ControllerMain(listall, idElInput, view, model) {
+    function ControllerMain(listall, idElInput, view, model, idalldel, idallcomplite) {
         _classCallCheck(this, ControllerMain);
 
         this.listall = listall;
         this.idElInput = idElInput;
         this.view = view;
         this.model = model;
+
+        this.idalldel = idalldel;
+        this.idallcomplite = idallcomplite;
         self = this;
-        console.log("c");
     }
 
     _createClass(ControllerMain, [{
@@ -109,6 +111,7 @@ var ControllerMain = exports.ControllerMain = function () {
                     lastTime = Date.now();
                 }
             }
+            self.addEventDelAllAndCompliteAll();
             // self.loadData();
         }
     }, {
@@ -139,7 +142,29 @@ var ControllerMain = exports.ControllerMain = function () {
         }
     }, {
         key: "addEventComplite",
-        value: function addEventComplite() {}
+        value: function addEventComplite() {
+            this.listall.forEach(function (el) {
+                var delid = "complid_" + el.id;
+                var delbtn = document.getElementById(delid);
+                // console.log(delbtn);
+                delbtn.onclick = function (event) {
+                    var id = event.target.attributes['idn'].value;
+                    self.compliteEl(id);
+                };
+            });
+        }
+    }, {
+        key: "addEventDelAllAndCompliteAll",
+        value: function addEventDelAllAndCompliteAll() {
+            var delallbtn = document.getElementById(this.idalldel);
+            delallbtn.onclick = function (event) {
+                self.delAll();
+            };
+            var compliteabtn = document.getElementById(this.idallcomplite);
+            compliteabtn.onclick = function (event) {
+                self.completeAllList();
+            };
+        }
     }, {
         key: "delElFromList",
         value: function delElFromList(idDel) {
@@ -156,16 +181,52 @@ var ControllerMain = exports.ControllerMain = function () {
             this.model.saveData();
             this.view.veiwAllList();
             self.addEventDel();
+            self.addEventComplite();
         }
     }, {
         key: "compliteEl",
-        value: function compliteEl(idel) {}
+        value: function compliteEl(idel) {
+
+            var tempList = [];
+            this.listall.forEach(function (el) {
+                if (el.id == idel) {
+                    if (el.end == true) {
+                        el.end = false;
+                    } else {
+                        el.end = true;
+                    }
+                }
+            });
+            console.log(this.listall);
+            this.model.listall = this.listall;
+            this.view.listall = this.listall;
+            this.model.saveData();
+            this.view.veiwAllList();
+            self.addEventDel();
+            self.addEventComplite();
+        }
     }, {
         key: "delAll",
-        value: function delAll() {}
+        value: function delAll() {
+            this.listall = [];
+            this.model.listall = this.listall;
+            this.view.listall = this.listall;
+            this.model.saveData();
+            this.view.veiwAllList();
+        }
     }, {
         key: "completeAllList",
-        value: function completeAllList() {}
+        value: function completeAllList() {
+            this.listall.forEach(function (el) {
+                el.end = true;
+            });
+            this.model.listall = this.listall;
+            this.view.listall = this.listall;
+            this.model.saveData();
+            this.view.veiwAllList();
+            self.addEventDel();
+            self.addEventComplite();
+        }
     }]);
 
     return ControllerMain;
@@ -265,7 +326,7 @@ var viewMain = exports.viewMain = function () {
                 if (element.end == false) {
                     classCss = "nocomplite";
                 }
-                el = el + "<div id = 'item_" + element.id + "'  class='" + classCss + "'> <span class='listtext' onclick='todo_list.compliteEl(" + element.id + ")' >  " + element.text + "</span> <a id='delbtn_" + element.id + "' idn = '" + element.id + "' href='#'  class='" + _this.delBtnEl + "'>Удалить</a></div>";
+                el = el + "<div id = 'item_" + element.id + "'  class='" + classCss + "'> <span class='listtext' idn='" + element.id + "' id='complid_" + element.id + "' >  " + element.text + "</span> <a id='delbtn_" + element.id + "' idn = '" + element.id + "' href='#'  class='" + _this.delBtnEl + "'>Удалить</a></div>";
             });
             list.innerHTML = el;
             /////////////////////////////////////
@@ -293,14 +354,18 @@ var _view = __webpack_require__(2);
 var listall = [];
 var idinput = "todo";
 var idlist = "list";
+var iddelall = "delAll";
+var idcompliteall = "compliteAll";
 
 var todo_list_M = new _model.modelMain(listall);
 todo_list_M.loadData();
 var todo_list_v = new _view.viewMain(todo_list_M.listall, idlist);
-var todo_list_C = new _controller.ControllerMain(todo_list_M.listall, idinput, todo_list_v, todo_list_M);
+var todo_list_C = new _controller.ControllerMain(todo_list_M.listall, idinput, todo_list_v, todo_list_M, iddelall, idcompliteall);
 todo_list_C.init();
 todo_list_v.veiwAllList();
+
 todo_list_C.addEventDel();
+todo_list_C.addEventComplite();
 
 /***/ })
 /******/ ]);

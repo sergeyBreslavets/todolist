@@ -22,7 +22,7 @@ export class viewMain {
             if (element.end == false) {
                 classCss = "nocomplite";
             }
-            el = el + "<div id = 'item_" + element.id + "'  class='" + classCss + "'> <span class='listtext' onclick='todo_list.compliteEl(" + element.id + ")' >  " + element.text + "</span> <a id='delbtn_" + element.id + "' idn = '" + element.id + "' href='#'  class='" + this.delBtnEl + "'>Удалить</a></div>";
+            el = el + "<div id = 'item_" + element.id + "'  class='" + classCss + "'> <span class='listtext' idn='" + element.id + "' id='complid_" + element.id + "' >  " + element.text + "</span> <a id='delbtn_" + element.id + "' idn = '" + element.id + "' href='#'  class='" + this.delBtnEl + "'>Удалить</a></div>";
         });
         list.innerHTML = el;
         /////////////////////////////////////
