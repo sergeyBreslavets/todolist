@@ -39,46 +39,37 @@ export class ControllerMain {
     }
 
     addEventDel() {
-
         this.listall.forEach(el => {
-
             let delid = "delbtn_" + el.id;
             let delbtn = document.getElementById(delid);
-
-            delbtn.onkeydown = delbtn.onkeyup = delbtn.onkeypress = handle;
-
+            // console.log(delbtn);
+            delbtn.onclick = function(event) {
+                let id = event.target.attributes['idn'].value;
+                self.delElFromList(id);
+            };
         });
-
-        function handle(e) {
-            self.delElFromList(el.id)
-        }
-
-
-
-        // delbtn_12
-
-        // let itemid = "item_" + id;
-        // let item = document.getElementById(itemid);
-        // let delbtn = item.getElementsByClassName('del');
-
-        // delbtn.onkeydown = delbtn.onkeyup = delbtn.onkeypress = self.delElFromList(id);
     }
 
+    addEventComplite() {
+
+    }
 
     delElFromList(idDel) {
-        console.log(idDel);
-        // let tempList = [];
-        // this.listall.forEach(
-        //     el => {
-        //         if (el.id != idDel) {
-        //             tempList.push(el);
-        //         }
-        //     }
-        // );
-        // this.listall = tempList;
-
-        // this.view.veiwAllList();
-        // this.model.saveData();
+        let tempList = [];
+        this.listall.forEach(
+            el => {
+                if (el.id != idDel) {
+                    tempList.push(el);
+                }
+            }
+        );
+        this.listall = tempList;
+        console.log(this.listall);
+        this.model.listall = this.listall;
+        this.view.listall = this.listall;
+        this.model.saveData();
+        this.view.veiwAllList();
+        self.addEventDel();
     }
 
 

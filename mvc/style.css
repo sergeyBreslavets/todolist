@@ -48,7 +48,7 @@ h1 {
     text-transform: uppercase;
     margin-top: 5px;
     background: #2c3844;
-    padding: 5px;
+    padding: 5px 0px 5px 0px;
     position: relative;
     min-height: 20px;
 }

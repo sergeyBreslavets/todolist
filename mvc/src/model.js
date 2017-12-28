@@ -23,6 +23,7 @@ export class modelMain {
 
     saveData() {
         console.log("save");
+        console.log(this.listall);
         let sObj = JSON.stringify(this.listall)
         localStorage.removeItem("todolist");
         localStorage.setItem("todolist", sObj);

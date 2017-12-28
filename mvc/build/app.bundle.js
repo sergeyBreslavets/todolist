@@ -63,41 +63,11 @@
 /******/ 	__webpack_require__.p = "/public";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _controller = __webpack_require__(1);
-
-var _model = __webpack_require__(2);
-
-var _view = __webpack_require__(3);
-
-var listall = [];
-var idinput = "todo";
-var idlist = "list";
-
-var todo_list_M = new _model.modelMain(listall);
-todo_list_M.loadData();
-var todo_list_v = new _view.viewMain(todo_list_M.listall, idlist);
-var todo_list_C = new _controller.ControllerMain(todo_list_M.listall, idinput, todo_list_v, todo_list_M);
-todo_list_C.init();
-todo_list_v.veiwAllList();
-
-console.log(todo_list_M.listall);
-
-function delmain() {
-    console.log("delll");
-}
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -157,43 +127,35 @@ var ControllerMain = exports.ControllerMain = function () {
     }, {
         key: "addEventDel",
         value: function addEventDel() {
-
             this.listall.forEach(function (el) {
-
                 var delid = "delbtn_" + el.id;
                 var delbtn = document.getElementById(delid);
-
-                delbtn.onkeydown = delbtn.onkeyup = delbtn.onkeypress = handle;
+                // console.log(delbtn);
+                delbtn.onclick = function (event) {
+                    var id = event.target.attributes['idn'].value;
+                    self.delElFromList(id);
+                };
             });
-
-            function handle(e) {
-                self.delElFromList(el.id);
-            }
-
-            // delbtn_12
-
-            // let itemid = "item_" + id;
-            // let item = document.getElementById(itemid);
-            // let delbtn = item.getElementsByClassName('del');
-
-            // delbtn.onkeydown = delbtn.onkeyup = delbtn.onkeypress = self.delElFromList(id);
         }
+    }, {
+        key: "addEventComplite",
+        value: function addEventComplite() {}
     }, {
         key: "delElFromList",
         value: function delElFromList(idDel) {
-            console.log(idDel);
-            // let tempList = [];
-            // this.listall.forEach(
-            //     el => {
-            //         if (el.id != idDel) {
-            //             tempList.push(el);
-            //         }
-            //     }
-            // );
-            // this.listall = tempList;
-
-            // this.view.veiwAllList();
-            // this.model.saveData();
+            var tempList = [];
+            this.listall.forEach(function (el) {
+                if (el.id != idDel) {
+                    tempList.push(el);
+                }
+            });
+            this.listall = tempList;
+            console.log(this.listall);
+            this.model.listall = this.listall;
+            this.view.listall = this.listall;
+            this.model.saveData();
+            this.view.veiwAllList();
+            self.addEventDel();
         }
     }, {
         key: "compliteEl",
@@ -210,7 +172,7 @@ var ControllerMain = exports.ControllerMain = function () {
 }();
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -250,6 +212,7 @@ var modelMain = exports.modelMain = function () {
         key: "saveData",
         value: function saveData() {
             console.log("save");
+            console.log(this.listall);
             var sObj = JSON.stringify(this.listall);
             localStorage.removeItem("todolist");
             localStorage.setItem("todolist", sObj);
@@ -260,7 +223,7 @@ var modelMain = exports.modelMain = function () {
 }();
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -302,7 +265,7 @@ var viewMain = exports.viewMain = function () {
                 if (element.end == false) {
                     classCss = "nocomplite";
                 }
-                el = el + "<div id = 'item_" + element.id + "'  class='" + classCss + "'> <span class='listtext' onclick='todo_list.compliteEl(" + element.id + ")' >  " + element.text + "</span> <a id='delbtn_" + element.id + "' onclick='del()' class='" + _this.delBtnEl + "'>Удалить</a></div>";
+                el = el + "<div id = 'item_" + element.id + "'  class='" + classCss + "'> <span class='listtext' onclick='todo_list.compliteEl(" + element.id + ")' >  " + element.text + "</span> <a id='delbtn_" + element.id + "' idn = '" + element.id + "' href='#'  class='" + _this.delBtnEl + "'>Удалить</a></div>";
             });
             list.innerHTML = el;
             /////////////////////////////////////
@@ -313,6 +276,31 @@ var viewMain = exports.viewMain = function () {
 
     return viewMain;
 }();
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _controller = __webpack_require__(0);
+
+var _model = __webpack_require__(1);
+
+var _view = __webpack_require__(2);
+
+var listall = [];
+var idinput = "todo";
+var idlist = "list";
+
+var todo_list_M = new _model.modelMain(listall);
+todo_list_M.loadData();
+var todo_list_v = new _view.viewMain(todo_list_M.listall, idlist);
+var todo_list_C = new _controller.ControllerMain(todo_list_M.listall, idinput, todo_list_v, todo_list_M);
+todo_list_C.init();
+todo_list_v.veiwAllList();
+todo_list_C.addEventDel();
 
 /***/ })
 /******/ ]);
