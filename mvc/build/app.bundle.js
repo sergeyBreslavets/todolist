@@ -122,8 +122,8 @@ var ControllerMain = exports.ControllerMain = function () {
             this.listall.push({ "id": this.listall.length, "text": kinput.value, "end": false });
             console.log(this.listall);
             this.view.veiwAllList();
-            // self.addEventDel();
-            // self.addEventDel(id);
+            self.addEventDel();
+            self.addEventDel(id);
             this.model.saveData();
             kinput.value = "";
         }
