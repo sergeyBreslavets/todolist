@@ -76,15 +76,17 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.ControllerMain = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // Контроллер (Controller) интерпретирует действия пользователя, оповещая модель о необходимости изменений[
+
+
+var _helpmetod = __webpack_require__(4);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// Контроллер (Controller) интерпретирует действия пользователя, оповещая модель о необходимости изменений[
-
 var ControllerMain = exports.ControllerMain = function () {
-    function ControllerMain(listall, idElInput, view, model, idalldel, idallcomplite) {
+    function ControllerMain(listall, idElInput, view, model, idalldel, idallcomplite, idsort) {
         _classCallCheck(this, ControllerMain);
 
         this.listall = listall;
@@ -94,6 +96,10 @@ var ControllerMain = exports.ControllerMain = function () {
 
         this.idalldel = idalldel;
         this.idallcomplite = idallcomplite;
+        this.idsort = idsort;
+
+        this.sortkey = "up";
+
         self = this;
     }
 
@@ -164,6 +170,19 @@ var ControllerMain = exports.ControllerMain = function () {
             compliteabtn.onclick = function (event) {
                 self.completeAllList();
             };
+
+            var sortbtn = document.getElementById(this.idsort);
+            sortbtn.onclick = function (event) {
+
+                if (this.sortkey == "up") {
+                    this.sortkey = "down";
+
+                    self.sortAllListUp();
+                } else {
+                    this.sortkey = "up";
+                    self.sortAllListDown();
+                }
+            };
         }
     }, {
         key: "delElFromList",
@@ -222,6 +241,40 @@ var ControllerMain = exports.ControllerMain = function () {
             });
             this.model.listall = this.listall;
             this.view.listall = this.listall;
+            this.model.saveData();
+            this.view.veiwAllList();
+            self.addEventDel();
+            self.addEventComplite();
+        }
+    }, {
+        key: "sortAllListUp",
+        value: function sortAllListUp() {
+
+            console.log("try sort");
+
+            console.log((0, _helpmetod.sortListup)(this.listall));
+
+            this.listall = (0, _helpmetod.sortListup)(this.listall);
+            this.model.listall = this.listall;
+            this.view.listall = this.listall;
+
+            this.model.saveData();
+            this.view.veiwAllList();
+            self.addEventDel();
+            self.addEventComplite();
+        }
+    }, {
+        key: "sortAllListDown",
+        value: function sortAllListDown() {
+
+            console.log("try sort");
+
+            console.log((0, _helpmetod.sortListdown)(this.listall));
+
+            this.listall = (0, _helpmetod.sortListdown)(this.listall);
+            this.model.listall = this.listall;
+            this.view.listall = this.listall;
+
             this.model.saveData();
             this.view.veiwAllList();
             self.addEventDel();
@@ -356,16 +409,47 @@ var idinput = "todo";
 var idlist = "list";
 var iddelall = "delAll";
 var idcompliteall = "compliteAll";
+var idsort = "sortAll";
 
 var todo_list_M = new _model.modelMain(listall);
 todo_list_M.loadData();
 var todo_list_v = new _view.viewMain(todo_list_M.listall, idlist);
-var todo_list_C = new _controller.ControllerMain(todo_list_M.listall, idinput, todo_list_v, todo_list_M, iddelall, idcompliteall);
+var todo_list_C = new _controller.ControllerMain(todo_list_M.listall, idinput, todo_list_v, todo_list_M, iddelall, idcompliteall, idsort);
 todo_list_C.init();
 todo_list_v.veiwAllList();
 
 todo_list_C.addEventDel();
 todo_list_C.addEventComplite();
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+function comparelist(a, b) {
+    if (a.text > b.text) return 1;
+    if (a.text < b.text) return -1;
+}
+
+function comparelistd(a, b) {
+    if (a.text > b.text) return -1;
+    if (a.text < b.text) return 1;
+}
+
+var sortListup = exports.sortListup = function sortListup(list) {
+    var sort_List = list.sort(comparelist);
+    return sort_List;
+};
+
+var sortListdown = exports.sortListdown = function sortListdown(list) {
+    var sort_List = list.sort(comparelistd);
+    return sort_List;
+};
 
 /***/ })
 /******/ ]);

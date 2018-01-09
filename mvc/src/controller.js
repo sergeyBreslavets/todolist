@@ -1,8 +1,10 @@
 // Контроллер (Controller) интерпретирует действия пользователя, оповещая модель о необходимости изменений[
+import { sortListup, sortListdown } from "./helpmetod";
+
 
 export class ControllerMain {
 
-    constructor(listall, idElInput, view, model, idalldel, idallcomplite) {
+    constructor(listall, idElInput, view, model, idalldel, idallcomplite, idsort) {
         this.listall = listall;
         this.idElInput = idElInput;
         this.view = view;
@@ -10,6 +12,10 @@ export class ControllerMain {
 
         this.idalldel = idalldel;
         this.idallcomplite = idallcomplite;
+        this.idsort = idsort;
+
+        this.sortkey = "up";
+
         self = this;
 
     }
@@ -71,6 +77,24 @@ export class ControllerMain {
         delallbtn.onclick = function(event) { self.delAll(); }
         let compliteabtn = document.getElementById(this.idallcomplite);
         compliteabtn.onclick = function(event) { self.completeAllList(); }
+
+        let sortbtn = document.getElementById(this.idsort);
+        sortbtn.onclick = function(event) {
+
+            if (this.sortkey == "up") {
+                this.sortkey = "down";
+
+                self.sortAllListUp();
+
+            } else {
+                this.sortkey = "up";
+                self.sortAllListDown();
+            }
+
+
+        }
+
+
     }
 
 
@@ -139,5 +163,43 @@ export class ControllerMain {
         self.addEventDel();
         self.addEventComplite();
     }
+
+
+    sortAllListUp() {
+
+        console.log("try sort");
+
+        console.log(sortListup(this.listall));
+
+        this.listall = sortListup(this.listall);
+        this.model.listall = this.listall;
+        this.view.listall = this.listall;
+
+        this.model.saveData();
+        this.view.veiwAllList();
+        self.addEventDel();
+        self.addEventComplite();
+
+    }
+    sortAllListDown() {
+
+        console.log("try sort");
+
+        console.log(sortListdown(this.listall));
+
+        this.listall = sortListdown(this.listall);
+        this.model.listall = this.listall;
+        this.view.listall = this.listall;
+
+        this.model.saveData();
+        this.view.veiwAllList();
+        self.addEventDel();
+        self.addEventComplite();
+
+    }
+
+
+
+
 
 }
